@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "target": "ESNext",
+        "watch": true,
+        "outDir": "dist",
+        "lib": ["DOM", "ES2017"]
+    }
+}
