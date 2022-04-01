@@ -39,7 +39,7 @@ class VecN
     public sqrMagnitude()   : number    { return this.reduce(v => v * v); }
     public magnitude()      : number    { return Math.sqrt(this.reduce(v => v * v)); }
 
-    public normalized()     : this      { return this.divS(this.magnitude()); }
+    public normalized()     : this      { const mag = this.magnitude(); return mag !== 0 ? this.divS(this.magnitude()) : this.copy(); }
     public inverted()       : this      { return this.multS(-1); }
 
     public abs()            : this      { return this.map(Math.abs); }

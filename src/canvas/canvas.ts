@@ -25,6 +25,8 @@ class Canvas2d
         this.ctx = this.element.element.getContext("2d");
     }
 
+    public get domElement() { return this.element; }
+
     clear() { const dim = this.element.dim; this.ctx.clearRect(0, 0, dim.x, dim.y); }
 
     // drawing functions start
