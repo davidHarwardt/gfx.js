@@ -54,8 +54,8 @@ class Canvas2d
         this.ctx.beginPath();
         this.ctx.arc(center.x, center.y, radius, 0, Math.PI * 2);
 
-        if(style.fill !== false) { this.ctx.fillStyle = style?.color.toString() ?? Color.green.toString(); this.ctx.fill(); }
-        if(style.borderWidth > 0) { this.ctx.strokeStyle = style?.borderColor.toString() ?? Color.red.toString(); this.ctx.lineWidth = style.borderWidth; this.ctx.stroke(); }
+        if(style.fill !== false) { this.ctx.fillStyle = style.color?.toString() ?? Color.green.toString(); this.ctx.fill(); }
+        if(style.borderWidth > 0) { this.ctx.strokeStyle = style.borderColor?.toString() ?? Color.red.toString(); this.ctx.lineWidth = style.borderWidth; this.ctx.stroke(); }
     }
 
     drawPoly(vertecies: Vec2[], style: ICanvas2dPolygonStyle = {})

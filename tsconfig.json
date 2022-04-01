@@ -3,6 +3,7 @@
         "experimentalDecorators": true,
         "target": "ESNext",
         "watch": true,
+        "sourceMap": true,
         "outDir": "dist",
         "lib": ["DOM", "ES2017"]
     }

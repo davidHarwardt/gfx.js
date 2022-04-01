@@ -1,15 +1,19 @@
 import { Canvas2d } from "./src/canvas/canvas.js";
 import { CanvasFullscreenSize } from "./src/canvas/size.js";
 import { Color } from "./src/color/color.js";
-import { AllHandlers, InputManager, KeyboardModule, MouseModule, WindowHandlers } from "./src/input/input.js";
-import { Vec2 } from "./src/math/vector.js";
+import { InputManager } from "./src/input/input.js";
 
+const canvas = new Canvas2d(undefined, new CanvasFullscreenSize(), { element: { background: new Color(0, 0, 0) } });
 
-const input = new InputManager<AllHandlers>(window).add(new MouseModule()).add(new KeyboardModule);
+const input = new InputManager(window);
 
+function draw()
+{
+    canvas.clear();
 
-const canvas = new Canvas2d(undefined, new CanvasFullscreenSize(), { element: { background: Color.black } });
+    canvas.drawCircle(input.mousePos, 2);
 
-canvas.drawRect(new Vec2(100, 100), new Vec2(100, 100));
+    requestAnimationFrame(draw);
+}
 
-console.log(canvas);
+requestAnimationFrame(draw);

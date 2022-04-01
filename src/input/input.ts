@@ -4,76 +4,27 @@ type WindowHandlers = WindowEventHandlers;
 type ElementHandlers = GlobalEventHandlers;
 type AllHandlers = WindowHandlers | ElementHandlers;
 
-type test = HTMLElement;
-
-interface IInputModule<T extends AllHandlers = AllHandlers>
+class InputManager
 {
-    parent: T extends ElementHandlers ? ElementHandlers : WindowHandlers;
-    init(): void;
-};
+    protected parent: typeof window;
 
-class InputManager<T extends AllHandlers>
-{
-    parent: T;
-    
-    constructor(parent: T)
+    protected _mousePos: Vec2;
+    protected _buttons: [left: boolean, middle: boolean, right: boolean];
+
+    public get mousePos() { return this._mousePos; }
+
+    constructor(parent: typeof window)
     {
         this.parent = parent;
-    }
-    
-    static get Window() { return new InputManager(window); }
+        this._buttons = [false, false, false];
+        this._mousePos = new Vec2(0, 0);
 
-    add<V extends IInputModule<T>>(mod: V)
-    {
-        const res = Object.assign(this, mod);
-
-        mod.init();
-
-        return res;
-    }
-
-    finish(): Readonly<Omit<this, "init" | "finish" | "add" | "parent">>
-    {
-        return Object.freeze(this);
-    }
-}
-
-class MouseModule implements IInputModule
-{
-    parent: AllHandlers;
-    
-    preventContext: boolean;
-
-    constructor(preventContext: boolean = false)
-    {
-        this.preventContext = preventContext;
-    }
-
-    init()
-    {
-        console.log("init");
-    }
-}
-
-class KeyboardModule implements IInputModule
-{
-    parent: AllHandlers;
-
-    init()
-    {
-        console.log(this);
+        this.parent.addEventListener("mousemove", ev => this._mousePos = new Vec2(ev.clientX, ev.clientY));
+        this.parent.addEventListener("mousedown", ev => this._buttons[ev.button] = true);
+        this.parent.addEventListener("mouseup", ev => this._buttons[ev.button] = false);
     }
 }
 
 export {
     InputManager,
-
-    MouseModule,
-    KeyboardModule,
-
-    IInputModule,
-
-    WindowHandlers,
-    ElementHandlers,
-    AllHandlers,
 };
