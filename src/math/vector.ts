@@ -52,6 +52,15 @@ class VecN
     public toArray()        : number[]  { return this.v.slice(); }
 }
 
+class Scalar extends VecN
+{
+    constructor(s: number) { super(s); }
+
+    get s() { return this.v[0]; }
+
+    set s(v: number) { this.v[0] = v; }
+}
+
 class Vec2 extends VecN
 {
     constructor(x: number, y: number)
@@ -101,7 +110,10 @@ class Vec4 extends VecN
 }
 
 export {
+    Scalar,
     Vec2,
     Vec3,
     Vec4,
+
+    VecN,
 };
