@@ -98,16 +98,35 @@ class Canvas2d
     // drawing functions end
 
     translate(offset: Vec2) { this.ctx.translate(offset.x, offset.y); }
-    scale(scale: Vec2) { this.ctx.scale(scale.x, scale.y); }
+    scale(scale: Vec2, transformOrigin?: Vec2)
+    {
+        if(transformOrigin) { this.translate(transformOrigin); }
+        this.ctx.scale(scale.x, scale.y);
+        if(transformOrigin) { this.translate(transformOrigin.inverted()); }
+    }
     rotate(angle: number, transformOrigin?: Vec2)
     {
-        if(!transformOrigin) { this.translate(transformOrigin); }
+        if(transformOrigin) { this.translate(transformOrigin); }
         this.ctx.rotate(angle);
-        if(!transformOrigin) { this.translate(transformOrigin.inverted()); }
+        if(transformOrigin) { this.translate(transformOrigin.inverted()); }
     }
+
+    resetTransform() { this.ctx.resetTransform(); }
 
     saveCtx()       { this.ctx.save(); }
     restoreCtx()    { this.ctx.restore(); }
+
+    screenToWorld(pos: Vec2)
+    {
+        const mat = this.ctx.getTransform().inverse();        
+        return new Vec2(mat.a * pos.x + mat.c * pos.y + mat.e, mat.b * pos.x + mat.d * pos.y + mat.f);
+    }
+
+    worldToScreen(pos: Vec2)
+    {
+        const mat = this.ctx.getTransform();        
+        return new Vec2(mat.a * pos.x + mat.c * pos.y + mat.e, mat.b * pos.x + mat.d * pos.y + mat.f);
+    }
 
     clipRect(pos: Vec2, dim: Vec2)              { this.ctx.beginPath(); this.ctx.rect(pos.x, pos.y, dim.x, dim.y); this.ctx.clip(); }
     clipCircle(center: Vec2, radius: number)    { this.ctx.beginPath(); this.ctx.arc(center.x, center.y, radius, 0, Math.PI * 2); this.ctx.clip(); }
