@@ -53,6 +53,14 @@ class Color
     toHexString(includeAlpha: boolean = this.a !== 1.0) { return `#${this.toHexComponent(this.r)}${this.toHexComponent(this.g)}${this.toHexComponent(this.b)}${includeAlpha ? this.toHexComponent(this.a) : ""}`}
     toString() { return this.toHexString(); }
     toVec() { return this.v.copy(); }
+    toArray() { return this.v.toArray(); }
+
+    mix(color: Color, amount: number = 0.5)
+    {
+        const res = new Color(0, 0, 0, 0);
+        res.v = this.v.multS(amount).add(color.v.multS(1 - amount));
+        return res;
+    }
 
     // todo: implement hsv, hsl, temperature
 }

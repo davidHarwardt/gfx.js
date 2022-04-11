@@ -3,7 +3,7 @@ class VecN
 {
     protected v: number[];
 
-    constructor(...v: number[])
+    protected constructor(...v: number[])
     {
         this.v = v;
     }
