@@ -118,9 +118,16 @@ class ShaderProgram<T extends readonly string[], U extends { [V: string]: Shader
         this.id = id;
         this._uniforms = uniforms;
 
+        this._attriabuteLocations = {};
+
         for(const name of attributeLocations) { this._attriabuteLocations[name] = undefined; }
 
         this._shaders.forEach(v => gl.attachShader(this._handle, v.handle));
+    }
+
+    compileAll(gl: WebGL2RenderingContext)
+    {
+        return this._shaders.map(v => v.compile(gl)).includes(false);
     }
 
     link(gl: WebGL2RenderingContext): boolean

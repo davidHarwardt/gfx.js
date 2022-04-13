@@ -13,7 +13,7 @@ class HtmlCanvas
     private domElement: HTMLCanvasElement;
     private size: ICanvasSize;
 
-    constructor(parent: HTMLElement = document.body, size: ICanvasSize = new CanvasCSSSize(), options: IHtmlCanvasOptions = {})
+    constructor(parent: HTMLElement = document.body, size: ICanvasSize = new CanvasCSSSize(_ => {}), options: IHtmlCanvasOptions = {})
     {
         this.domElement = document.createElement("canvas");
         parent.append(this.domElement);
