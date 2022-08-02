@@ -52,10 +52,10 @@ class MatGen<D1 extends number, D2 extends number>
         return res;
     }
 
-    public multGeneric<E1 extends D2, E2 extends number>(m: MatN<E1, E2>): MatN<D1, E2>
+    public multGeneric<E1 extends D2, E2 extends number>(m: MatGen<E1, E2>): MatGen<D1, E2>
     {
         const resDim = [this.rows, m.columns] as [typeof this.rows, typeof m.columns];
-        const res = new MatN(resDim, new Array(resDim[0] * resDim[1]).fill(0)).map2d((v, [i, j]) =>
+        const res = new MatGen(resDim, new Array(resDim[0] * resDim[1]).fill(0)).map2d((v, [i, j]) =>
         {
             let dot = 0;
             for(let k = 0; k < m.rows; k++) { dot += this.at(i, k) * m.at(k, j); }
@@ -71,8 +71,8 @@ class MatGen<D1 extends number, D2 extends number>
     }
 
     // entrywise
-    public add(m: MatN<D1, D2>) { return this.map((v, idx) => v + m.v[idx]); }
-    public sub(m: MatN<D1, D2>) { return this.map((v, idx) => v - m.v[idx]); }
+    public add(m: MatGen<D1, D2>) { return this.map((v, idx) => v + m.v[idx]); }
+    public sub(m: MatGen<D1, D2>) { return this.map((v, idx) => v - m.v[idx]); }
 
     public get rows()       { return this.dim[0]; }
     public get columns()    { return this.dim[1]; }
@@ -134,27 +134,27 @@ class MatN<D extends number>
     public get dim() { return this._dim; }
 }
 
-class Mat2 extends SquareMat<2>
+class Mat2 extends MatN<2>
 {
     constructor(v: number[])
     {
-        super(2, v);
+        super(v, 2);
     }
 }
 
-class Mat3 extends SquareMat<3>
+class Mat3 extends MatN<3>
 {
     constructor(v: number[])
     {
-        super(3, v);
+        super(v, 3);
     }
 }
 
-class Mat4 extends SquareMat<4>
+class Mat4 extends MatN<4>
 {
     constructor(v: number[])
     {
-        super(4, v);
+        super(v, 4);
     }
 }
 
